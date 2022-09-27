@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+user-select:none;
+}
+
+body{
+background:#222;
+}
+
+#container #time{
+height:100vh;
+background-color:#333;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+}
+
+#time-title{
+position:absolute;
+top:44%;
+left:3%;
+color:white;
+}
+
+#time-title small{
+/*padding:0 40px;*/
+padding:40px;
+}
+
+#time-title:nth-child(2){
+padding-left:3px;
+}
+
+
+#time .box{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ height:100px;
+ width:100px;
+ margin:7px;
+ font-size:40px;
+ color:white;
+ border-radius:10px;
+ box-shadow:3px 3px 7px #000;
+ font-family:monospace;
+}
+
+#color1{
+background-color:red;
+}
+
+#color2{
+background-color:grey;
+}
+
+#color3{
+background-color:indigo;
+}
+
+#date{
+position:absolute;
+top:63%;
+left:22%;
+display:flex;
+color:white;
+font-size:22px;
+background-color:#444;
+padding:0 16px;
+border-radius:10px;
+font-family:Courier new,monospace;
+}
+
+#date .show-date{
+margin:7px;
+}
+
+#track{
+height:5px;
+width:326px;
+background-color:aquamarine;
+position:absolute;
+top:60%;
+left:5%;
+border-radius:10px;
+}
+
+
+.main{
+transform:scale(1);
+transition:.7s;
+}
+
+.btn-group{
+position:absolute;
+top:88%;
+left:16%;
+font-size:18px;
+}
+
+.show-btn ,.hide-btn{
+border:none;
+outline:none;
+padding:10px 20px;
+border-radius:6px;
+margin:0 15px;
+box-shadow:2px 2px 4px #000;
+font-family:monospace;
+}
+
+.show-btn{
+background-color:green;
+color:white;
+}
+
+.show-btn:hover{
+background-color:indigo;
+transition:.5s;
+}
+
+.hide-btn{
+background-color:red;
+color:white;
+}
+
+.hide-btn:hover{
+background-color:firebrick;
+transition:.5s;
+}
+</style>
+
+<body>
+
+
+
+<main id="container" class="main" >
+
+ <section id="time" >
+  <div class="box" id="color1" ></div>
+  <div class="box" id="color2"  ></div>
+  <div class="box" id="color3"  > </div>  
+ </section>
+ 
+ <section id="time-title" >
+ <small>Hour</small>
+ <small>Minute</small>
+ <small>Second</small>
+ </section>
+ 
+ <section id="date" >
+  <div class="show-date" id="today" ></div>
+  <div class="show-date"  id="month" ></div>
+  <div class="show-date" id="year" ></div>
+   <div class="show-date" id="formet" ></div>
+ </section>
+
+
+<div id="track" ></div>
+</main>
+
+
+<section class="btn-group" >
+<button class="show-btn"  onclick="display()">Show Time</button>
+<button class="hide-btn"  onclick="hideDisplay()">Hide Time</button>
+
+</section>
+
+</body>
+<script>
+
+ "use strict"
+
+function display(){
+let display = document.querySelector(".main")
+display.style.transform ='scale(1)';
+
+}
+
+function hideDisplay(){
+let display = document.querySelector(".main")
+display.style.transform ="scale(0)"
+}
+
+
+
+//setInterval(showTime,1000)
+
+function showTime(){
+
+
+ const date = new Date();
+ let hour = date.getHours()
+ let min = date.getMinutes()
+ let sec = date.getSeconds()
+ 
+ let formet;
+
+ if(hour === 0 ){
+  hour = 12;
+  formet = "AM";
+ }
+ 
+ if(hour > 12){
+  hour = hour - 12;
+  formet = "PM";
+ }
+ 
+ 
+ hour = hour < 10 ? "0"+hour:hour;
+ min = min < 10 ? "0"+min :min;
+ sec = sec < 10 ? "0"+ sec : sec;
+ 
+ 
+ 
+ 
+let showHour = document.getElementById("color1");
+let showMin = document.getElementById("color2");
+let showSec = document.getElementById("color3");
+ 
+ 
+ showHour.innerText = hour;
+ showMin.innerText = min;
+ showSec.innerText = sec;
+ 
+ 
+ let today = date.getDate()
+ let month = date.getMonth()
+ let fullYear = date.getFullYear()
+ 
+ today = today < 10 ? "0"+ today:today;
+ 
+ 
+ 
+ let showToday = document.getElementById("today")
+ let showMonth = showToday.nextElementSibling
+ let showYear = showToday.nextElementSibling.nextElementSibling
+ let showFormet = showYear.nextElementSibling
+ 
+ switch(month){
+ case 0:
+ showMonth.innerText = "Jan";
+ break;
+ case 1:
+ showMonth.innerText = "Feb";
+ break;
+ case 2:
+ showMonth.innerText="Mar";
+ break;
+ case 3:
+ showMonth.innerText = "Apr";
+ break;
+ case 4:
+ showMonth.innerText = "May";
+ break;
+ case 5:
+ showMonth.innerText ="Jun";
+ break;
+ case 6:
+ showMonth.innerText = "Jul";
+ break;
+ case 7:
+ showMonth.innerText = "Ags";
+ break;
+ case 8:
+ showMonth.innerText = "Sep";
+ break;
+ case 9:
+ showMonth.innerText = "Oct";
+ break;
+ case 10:
+ showMonth.innerText = "Nov";
+ break;
+ default:
+ showMonth.innerText = "Dec"
+ }
+ 
+ 
+ 
+ 
+ showToday.innerText = `${today}`;
+ //showMonth.innerText = `/ ${month} /`;
+ showYear.innerText = `${fullYear}`;
+ showFormet.innerText = formet;
+ 
+ let track = document.getElementById("track")
+ let width = track.style.width = (sec / 100)* 544+'px';
+ }
+
+ showTime()
+
+
+
+
+
+/*
+const div = document.getElementById('myDiv');
+const ulList = div.children[0];
+
+const javascript = ulList.children[2];
+
+const newItem = document.createElement('li');
+const text = document.createTextNode('React');
+
+newItem.appendChild(text)
+ulList.insertBefore(newItem,javascript)
+*/
+
+
+ 
+</script>
+</html>
